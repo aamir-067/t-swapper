@@ -6,9 +6,6 @@ const Inputs = () => {
     const { setInputToken, setRefresh, setOutputToken, inputToken, outputToken } = useContext(userContext);
 
 
-    console.log(inputToken, outputToken);
-
-
     const handleChange = (e: React.FormEvent<HTMLSelectElement | HTMLInputElement>, whichOne: string, isInput: boolean) => {
 
         if (whichOne === "input") {
@@ -18,10 +15,8 @@ const Inputs = () => {
             } else {
                 setInputToken({ ...inputToken, sign: e.currentTarget.value });
             }
-            console.log("Input Changed : ", e.currentTarget.value);
         } else {
             setOutputToken({ ...outputToken, sign: e.currentTarget.value })
-            console.log("Output Changed : ", e.currentTarget.value);
         }
         setRefresh(true);
     }

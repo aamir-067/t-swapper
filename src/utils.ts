@@ -81,8 +81,7 @@ export const getQuote = async (inputToken: token, outputToken: token) => {
 			quotedAmountOut,
 			tokenDetails[outputToken.sign].decimals
 		);
-		console.log("the result is : ", humanFormatResult);
-		return +humanFormatResult;
+		return Number(humanFormatResult).toFixed(3);
 	} catch (error) {
 		console.log("error occured", error);
 		return 0;
