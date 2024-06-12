@@ -1,6 +1,6 @@
 import { DefaultConfig } from "./interfaces";
 import { Token } from "@uniswap/sdk-core";
-import { tokenDetails } from "./tokens";
+import { tokenDetails, tokens } from "./tokens";
 import { FeeAmount, computePoolAddress } from "@uniswap/v3-sdk";
 import { ethers } from "ethers";
 
@@ -64,25 +64,27 @@ export const getQuote = async (inputToken: token, outputToken: token) => {
 		const quoterAddress = "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6";
 		const quoter = new ethers.Contract(quoterAddress, Quoter.abi, provider);
 
-		const quotedAmountOut = await quoter.callStatic.quoteExactInputSingle(
+		const quotedAmountOut = await quoter.callStatic.quoteExactOutputSingle(
 			token0,
 			token1,
 			fee,
 			ethers.utils
 				.parseUnits(
-					CurrentConfig.tokens.amountIn.toString(),
-					CurrentConfig.tokens.in.decimals
+					inputToken.amount.toString(),
+					tokenDetails[inputToken.sign].decimals
 				)
 				.toString(),
 			0
 		);
 
-		// console.log("the result is : ", quotedAmountOut);
-		console.log(
-			" usdt to shiba inu = ",
-			ethers.utils.formatUnits(quotedAmountOut, 8)
+		const humanFormatResult = ethers.utils.formatUnits(
+			quotedAmountOut,
+			tokenDetails[outputToken.sign].decimals
 		);
+		console.log("the result is : ", humanFormatResult);
+		return +humanFormatResult;
 	} catch (error) {
 		console.log("error occured", error);
+		return 0;
 	}
 };
