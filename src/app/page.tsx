@@ -22,8 +22,6 @@ export default function Home() {
     }
   }
 
-
-
   if (refresh) {
     if (inputToken.amount && outputToken.sign !== "" && inputToken.sign !== "") {
       getQuoteAmount();
